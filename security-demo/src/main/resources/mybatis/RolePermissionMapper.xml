@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.dodou.dao.RolePermissionMapper">
-    <resultMap id="BaseResultMap" type="com.dodou.model.RolePermission">
+<mapper namespace="com.liwh.dao.mapper.RolePermissionMapper">
+    <resultMap id="BaseResultMap" type="com.liwh.dao.model.RolePermission">
         <result property="id" column="id"/>
         <result property="roleId" column="role_id"/>
         <result property="permissionId" column="permission_id"/>

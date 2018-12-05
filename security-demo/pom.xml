@@ -14,12 +14,6 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--app服务-->
-        <dependency>
-            <groupId>com.liwh.security</groupId>
-            <artifactId>security-app</artifactId>
-            <version>${liwh.security.version}</version>
-        </dependency>
         <!--web服务-->
         <dependency>
             <groupId>com.liwh.security</groupId>

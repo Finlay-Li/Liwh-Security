@@ -2,7 +2,6 @@ package liwh.security.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
-import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -16,11 +15,10 @@ import org.springframework.context.annotation.Configuration;
  * @date: 2018-12-03 11:15 AM
  */
 @Configuration
-@MapperScan(value = "com.liwh.dao.mapper")
 public class MybatisConfig {
 
     @Bean
-    @ConfigurationProperties(prefix = "spring.datasource")
+    @ConfigurationProperties("spring.datasource")
     @ConditionalOnMissingBean
     public DruidDataSource druidDataSource() {
         DruidDataSource dataSource = new DruidDataSource();

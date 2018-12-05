@@ -20,7 +20,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>
         </dependency>
-
         <!--mysql-->
         <dependency>
             <groupId>mysql</groupId>
@@ -40,25 +39,25 @@
         </dependency>
         <!--redis-->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <!--第三方登录social-->
         <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-config</artifactId>
+        <groupId>org.springframework.social</groupId>
+        <artifactId>spring-social-config</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-core</artifactId>
+        <groupId>org.springframework.social</groupId>
+        <artifactId>spring-social-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-security</artifactId>
+        <groupId>org.springframework.social</groupId>
+        <artifactId>spring-social-security</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.social</groupId>
-            <artifactId>spring-social-web</artifactId>
+        <groupId>org.springframework.social</groupId>
+        <artifactId>spring-social-web</artifactId>
         </dependency>
         <!--lombok-->
         <dependency>
@@ -80,6 +79,18 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.47</version>
+        </dependency>
+        <!--Error:java: java.lang.NoClassDefFoundError: org/json/JSONObject-->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20140107</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

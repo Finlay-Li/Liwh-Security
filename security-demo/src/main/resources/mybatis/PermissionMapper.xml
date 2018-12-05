@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
-<mapper namespace="com.dodou.dao.PermissionMapper">
-    <resultMap id="BaseResultMap" type="com.dodou.model.Permission">
+<mapper namespace="com.liwh.dao.mapper.PermissionMapper">
+    <resultMap id="BaseResultMap" type="com.liwh.dao.model.Permission">
         <result property="id" column="id"/>
         <result property="parentId" column="parent_id"/>
         <result property="permContent" column="perm_content"/>
