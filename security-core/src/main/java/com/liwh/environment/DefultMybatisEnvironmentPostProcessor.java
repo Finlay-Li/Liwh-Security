@@ -1,4 +1,4 @@
-package liwh.security.environment;
+package com.liwh.environment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -19,8 +19,8 @@ public class DefultMybatisEnvironmentPostProcessor extends AbstractEnvironmentPo
     public void postProcessEnvironment(ConfigurableEnvironment configurableEnvironment, SpringApplication springApplication) {
         MutablePropertySources propertySources = configurableEnvironment.getPropertySources();
         HashMap<String, Object> map = new HashMap<>();
-        map.put("mybatis-plus.mapperLocations","classpath:/mybatis/**/mapper/*Mapper.xml");
-        map.put("mybatis-plus.typeAliasesPackage","com.dodou.liwh.dao.model,com.dodou.dao.model");
+        map.put("mybatis-plus.mapperLocations","classpath:/mybatis/**/*Mapper.xml");
+        map.put("mybatis-plus.typeAliasesPackage","com.liwh.dao.model");
         this.addEnvironmentProperties(propertySources,map);
     }
 }

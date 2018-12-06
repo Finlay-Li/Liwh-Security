@@ -1,4 +1,4 @@
-package liwh.security.base;
+package com.liwh.base;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 

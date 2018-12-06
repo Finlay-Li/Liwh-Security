@@ -2,7 +2,7 @@ package com.liwh.service;
 
 
 import com.liwh.dao.model.Admin;
-import liwh.security.base.BaseService;
+import com.liwh.base.BaseService;
 
 /**
  * @author: Liwh
@@ -13,4 +13,6 @@ import liwh.security.base.BaseService;
  */
 public interface AdminService extends BaseService<Admin> {
 
+
+    Admin queryById(int id);
 }

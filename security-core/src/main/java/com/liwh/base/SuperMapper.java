@@ -1,4 +1,4 @@
-package liwh.security.base;
+package com.liwh.base;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

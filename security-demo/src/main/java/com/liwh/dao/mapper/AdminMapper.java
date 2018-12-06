@@ -2,7 +2,8 @@ package com.liwh.dao.mapper;
 
 
 import com.liwh.dao.model.Admin;
-import liwh.security.base.SuperMapper;
+import com.liwh.base.SuperMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author: Liwh
@@ -12,4 +13,6 @@ import liwh.security.base.SuperMapper;
  * @date: 2018-09-22 16:39
  */
 public interface AdminMapper extends SuperMapper<Admin> {
+
+    Admin queryById(@Param("id") int id);
 }

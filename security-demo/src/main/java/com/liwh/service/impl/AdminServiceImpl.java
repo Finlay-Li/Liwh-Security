@@ -3,7 +3,7 @@ package com.liwh.service.impl;
 import com.liwh.dao.mapper.AdminMapper;
 import com.liwh.dao.model.Admin;
 import com.liwh.service.AdminService;
-import liwh.security.base.BaseServiceImpl;
+import com.liwh.base.BaseServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,4 +20,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AdminServiceImpl extends BaseServiceImpl<AdminMapper,Admin> implements AdminService {
 
+    @Autowired
+    private AdminMapper adminMapper;
+
+    @Override
+    public Admin queryById(int id) {
+        return adminMapper.queryById(id);
+    }
 }

@@ -2,7 +2,7 @@ package com.liwh.service;
 
 
 import com.liwh.dao.model.Permission;
-import liwh.security.base.BaseService;
+import com.liwh.base.BaseService;
 
 /**
  * @author: Liwh

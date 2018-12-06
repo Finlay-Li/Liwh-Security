@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -17,7 +18,8 @@ import java.sql.Timestamp;
  */
 @Data
 @TableName("sys_admin")
-public class Admin {
+public class Admin /*implements Serializable*/ {
+//    private static final long serialVersionUID = 5336519849955555998L;
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     //账户名称

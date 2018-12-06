@@ -12,7 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date: 2018-12-02 11:15 PM
  */
 @SpringBootApplication
-@MapperScan("com.liwh.dao.mapper")
 public class SecurityApplication {
     public static void main(String[] args) {
         SpringApplication.run(SecurityApplication.class,args);

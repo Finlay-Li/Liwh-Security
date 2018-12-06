@@ -1,2 +1,2 @@
 org.springframework.boot.env.EnvironmentPostProcessor=\
-liwh.security.environment.DefultMybatisEnvironmentPostProcessor
+com.liwh.environment.DefultMybatisEnvironmentPostProcessor

@@ -2,7 +2,7 @@ package com.liwh.dao.mapper;
 
 
 import com.liwh.dao.model.Permission;
-import liwh.security.base.SuperMapper;
+import com.liwh.base.SuperMapper;
 
 /**
  * @author: Liwh

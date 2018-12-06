@@ -3,7 +3,7 @@ package com.liwh.service.impl;
 import com.liwh.dao.mapper.AdminRoleMapper;
 import com.liwh.dao.model.AdminRole;
 import com.liwh.service.AdminRoleService;
-import liwh.security.base.BaseServiceImpl;
+import com.liwh.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 

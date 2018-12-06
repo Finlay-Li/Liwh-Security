@@ -3,7 +3,7 @@ package com.liwh.service.impl;
 import com.liwh.dao.mapper.RoleMapper;
 import com.liwh.dao.model.Role;
 import com.liwh.service.RoleService;
-import liwh.security.base.BaseServiceImpl;
+import com.liwh.base.BaseServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**
