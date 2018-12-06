@@ -24,7 +24,7 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper,Admin> impleme
     private AdminMapper adminMapper;
 
     @Override
-    public Admin queryById(int id) {
+    public Admin queryById(Long id) {
         return adminMapper.queryById(id);
     }
 }

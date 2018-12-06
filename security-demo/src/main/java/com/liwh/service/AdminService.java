@@ -14,5 +14,5 @@ import com.liwh.base.BaseService;
 public interface AdminService extends BaseService<Admin> {
 
 
-    Admin queryById(int id);
+    Admin queryById(Long id);
 }

@@ -2,7 +2,7 @@ package com.liwh.domain;
 
 /**
  * @author: Liwh
- * @ClassName: Subjet
+ * @ClassName: Subject
  * @Description:
  * @version: 1.0.0
  * @date: 2018-12-06 12:34 PM
@@ -76,7 +76,6 @@ public class Subject {
     }
 
     public int hashCode() {
-        boolean PRIME = true;
         int result = 1;
         Object $id = this.getId();
         result = result * 59 + ($id == null ? 43 : $id.hashCode());
