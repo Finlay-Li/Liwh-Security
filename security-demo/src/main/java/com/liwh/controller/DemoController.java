@@ -31,14 +31,14 @@ public class DemoController {
 
     @GetMapping("/hello")
     @ApiOperation(value = "第一个测试")
-    @ApiImplicitParam(name = "id", value = "测试id", required = true, dataType = "int")
-    public String helloSecurity(int id) {
+    @ApiImplicitParam(name = "id", value = "测试id", required = true, dataType = "Integer")
+    public String helloSecurity(Integer id) {
         return "hello-security";
     }
 
     @GetMapping("/testMybatis")
     @ApiOperation(value = "测试Mybatis")
-    @ApiImplicitParam(name = "user", value = "测试id", required = true, dataType = "Long")
+    @ApiImplicitParam(name = "user", value = "测试用户", required = true, dataType = "Long")
     public Admin testMybatis(Admin admin) {
         Admin result = adminService.queryById(admin.getId());
         return result;
