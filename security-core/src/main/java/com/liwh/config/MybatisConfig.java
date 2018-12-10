@@ -24,13 +24,13 @@ public class MybatisConfig {
     @ConditionalOnMissingBean
     public DruidDataSource druidDataSource() {
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.setInitialSize(5);
-        dataSource.setMaxActive(20);
-        dataSource.setMinIdle(5);
-        dataSource.setMaxWait(60000);
-        dataSource.setTimeBetweenEvictionRunsMillis(60000);
-        dataSource.setMinEvictableIdleTimeMillis(300000);
-        dataSource.setMaxPoolPreparedStatementPerConnectionSize(20);
+//        dataSource.setInitialSize(5);
+//        dataSource.setMaxActive(20);
+//        dataSource.setMinIdle(5);
+//        dataSource.setMaxWait(60000);
+//        dataSource.setTimeBetweenEvictionRunsMillis(60000);
+//        dataSource.setMinEvictableIdleTimeMillis(300000);
+//        dataSource.setMaxPoolPreparedStatementPerConnectionSize(20);
         return dataSource;
     }
 

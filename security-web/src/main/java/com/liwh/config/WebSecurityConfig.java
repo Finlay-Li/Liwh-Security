@@ -1,5 +1,7 @@
 package com.liwh.config;
 
+import com.liwh.properties.SecurityProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,6 +19,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    @Autowired
+    private SecurityProperties securityProperties;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -27,9 +32,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.formLogin()
+                //访问自定义首页
+                .loginPage("/default-security.html")  /*html请求*/
+//                .loginPage("/authentication/require")  /*资源访问请求*/
+                //自定义的表单请求，使用UsernamePasswordFilter进行处理
+                .loginProcessingUrl("/authentication/form")
                 .and()
                 .authorizeRequests()
+                //匹配器放过测试的controller请求 + 首页访问
+//                .antMatchers("/default-security.html").permitAll()
+                .antMatchers("/authentication/require", securityProperties.getWebProperties().getLoginPage()).permitAll()
                 .anyRequest()
-                .authenticated();
+                .authenticated()
+                .and()
+                //关闭csrf跨站攻击保护
+                .csrf().disable();
     }
 }

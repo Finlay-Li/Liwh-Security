@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class DemoController {
 
     @GetMapping("/testMybatis")
     @ApiOperation(value = "测试Mybatis")
-    @ApiImplicitParam(name = "user", value = "测试用户", required = true, dataType = "Long")
+    @ApiImplicitParam(name = "admin", value = "测试用户", required = true, dataType = "Long")
     public Admin testMybatis(Admin admin) {
         Admin result = adminService.queryById(admin.getId());
         return result;
@@ -47,7 +48,7 @@ public class DemoController {
     @GetMapping("/helloRedis")
     @ApiOperation(value = "测试Redis")
     @ApiImplicitParam(name = "num", value = "批量的次数", required = false, dataType = "int")
-    public List<Admin> helloRedis(int num) {
+    public List<Admin> helloRedis(Integer num) {
         List<Admin> list = new ArrayList<>();
         for (int i = 1; i < 2; i++) {
             Admin admin = new Admin();
@@ -60,4 +61,5 @@ public class DemoController {
         adminService.saveBatch(list);
         return list;
     }
+
 }
