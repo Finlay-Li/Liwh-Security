@@ -1,5 +1,6 @@
 package com.liwh.properties;
 
+import com.liwh.enums.LoginHandleReturnType;
 import lombok.Data;
 
 /**
@@ -13,5 +14,6 @@ import lombok.Data;
 public class WebSecurityProperties {
 
     //默认值
-    private String LoginPage = "/default-security.html";
+    private String loginPage = "/default-security.html";
+    private LoginHandleReturnType handleReturnType =  LoginHandleReturnType.JSON;
 }

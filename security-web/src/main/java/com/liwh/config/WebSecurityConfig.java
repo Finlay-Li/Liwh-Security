@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 /**
  * @author: Liwh
@@ -21,6 +23,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SecurityProperties securityProperties;
+    @Autowired//用我们的实现类
+    private AuthenticationSuccessHandler defaultAuthenticationSuccessHandle;
+    @Autowired
+    private AuthenticationFailureHandler defaultAuthenticationFailureHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -37,6 +43,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .loginPage("/authentication/require")  /*资源访问请求*/
                 //自定义的表单请求，使用UsernamePasswordFilter进行处理
                 .loginProcessingUrl("/authentication/form")
+                //加入我们的成功处理器
+                .successHandler(defaultAuthenticationSuccessHandle)
+                .failureHandler(defaultAuthenticationFailureHandler)
                 .and()
                 .authorizeRequests()
                 //匹配器放过测试的controller请求 + 首页访问
