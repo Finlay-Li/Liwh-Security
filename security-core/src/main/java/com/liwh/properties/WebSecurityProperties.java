@@ -15,5 +15,6 @@ public class WebSecurityProperties {
 
     //默认值
     private String loginPage = "/default-security.html";
-    private LoginHandleReturnType handleReturnType =  LoginHandleReturnType.JSON;
+    private String loginUri = "/authentication/form";
+    private LoginHandleReturnType handleReturnType = LoginHandleReturnType.JSON;
 }

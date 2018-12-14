@@ -34,10 +34,10 @@ public class DefaultAuthenticationFailureHandle extends SimpleUrlAuthenticationF
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         logger.info("登录失败！");
-        if (securityProperties.getWebProperties().getHandleReturnType().equals(LoginHandleReturnType.JSON)) {
+        if (securityProperties.getWebSecurity().getHandleReturnType().equals(LoginHandleReturnType.JSON)) {
 
             httpServletResponse.setContentType("application/json;charset=utf-8");
-            httpServletResponse.getWriter().write(JSON.toJSONString(e));
+            httpServletResponse.getWriter().write(JSON.toJSONString(e.getMessage()));
         } else {
             //调父类的重定向
             super.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);

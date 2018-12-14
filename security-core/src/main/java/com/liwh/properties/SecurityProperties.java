@@ -14,5 +14,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "liwh.security")
 public class SecurityProperties {
 
-    private WebSecurityProperties webProperties = new WebSecurityProperties();
+    private WebSecurityProperties webSecurity = new WebSecurityProperties();
+    private ValidataCodeProperties validataCode = new ValidataCodeProperties();
 }

@@ -1,6 +1,8 @@
 package com.liwh.config;
 
 import com.liwh.properties.SecurityProperties;
+import com.liwh.validata.code.ImageCode;
+import com.liwh.validata.code.ValidataCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * @author: Liwh
@@ -37,12 +40,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //重写web http security 配置
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin()
+
+        ValidataCodeFilter filter = new ValidataCodeFilter();
+        filter.setDefaultAuthenticationFailureHandle(defaultAuthenticationFailureHandler);
+        filter.setSecurityProperties(securityProperties);
+        //afterPropertiesSet()
+        filter.afterPropertiesSet();
+
+        //加在前面
+        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin()
                 //访问自定义首页
                 .loginPage("/default-security.html")  /*html请求*/
 //                .loginPage("/authentication/require")  /*资源访问请求*/
-                //自定义的表单请求，使用UsernamePasswordFilter进行处理
-                .loginProcessingUrl("/authentication/form")
+                //自定义表单的请求，使用UsernamePasswordFilter进行处理
+                .loginProcessingUrl(securityProperties.getWebSecurity().getLoginUri())
                 //加入我们的成功处理器
                 .successHandler(defaultAuthenticationSuccessHandle)
                 .failureHandler(defaultAuthenticationFailureHandler)
@@ -50,7 +62,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //匹配器放过测试的controller请求 + 首页访问
 //                .antMatchers("/default-security.html").permitAll()
-                .antMatchers("/authentication/require", securityProperties.getWebProperties().getLoginPage()).permitAll()
+                .antMatchers("/authentication/require"
+                        , securityProperties.getWebSecurity().getLoginPage()
+                        , "/image/code").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

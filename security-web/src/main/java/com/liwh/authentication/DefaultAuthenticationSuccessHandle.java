@@ -34,7 +34,7 @@ public class DefaultAuthenticationSuccessHandle extends SavedRequestAwareAuthent
     public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
         logger.info("登录成功！");
 
-        if (securityProperties.getWebProperties().getHandleReturnType().equals(LoginHandleReturnType.JSON)) {
+        if (securityProperties.getWebSecurity().getHandleReturnType().equals(LoginHandleReturnType.JSON)) {
 
             //发送积分
             //然后是否能访问到资源呢？答案是不行.实际中是：返回成功的json，进入首页
