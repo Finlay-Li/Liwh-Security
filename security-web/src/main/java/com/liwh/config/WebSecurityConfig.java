@@ -8,11 +8,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+
+import javax.sql.DataSource;
 
 /**
  * @author: Liwh
@@ -30,11 +35,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler defaultAuthenticationSuccessHandle;
     @Autowired
     private AuthenticationFailureHandler defaultAuthenticationFailureHandler;
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder;
+    }
+
+    @Bean//持久化的TokenRepository
+    public PersistentTokenRepository persistentTokenRepository() {
+        JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();
+        jdbcTokenRepository.setDataSource(dataSource);
+        //开启：启动服务时，spring创建表
+//        jdbcTokenRepository.setCreateTableOnStartup(true);
+        return jdbcTokenRepository;
     }
 
     //重写web http security 配置
@@ -58,6 +76,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //加入我们的成功处理器
                 .successHandler(defaultAuthenticationSuccessHandle)
                 .failureHandler(defaultAuthenticationFailureHandler)
+                .and()
+                .rememberMe()
+                .tokenRepository(persistentTokenRepository())
+                .tokenValiditySeconds(securityProperties.getWebSecurity().getRememberMeSeconds())
+                //回调userDetails，进行记住后操作
+                .userDetailsService(userDetailsService)
                 .and()
                 .authorizeRequests()
                 //匹配器放过测试的controller请求 + 首页访问

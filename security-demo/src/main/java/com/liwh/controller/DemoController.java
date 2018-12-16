@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -60,6 +61,13 @@ public class DemoController {
         }
         adminService.saveBatch(list);
         return list;
+    }
+
+    @GetMapping("/user/remember/{id}")
+    @ApiOperation(value = "记住我测试")
+    @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "Integer")
+    public Admin rememberMe(@PathVariable("id") Long id) {
+        return adminService.queryById(id);
     }
 
 }

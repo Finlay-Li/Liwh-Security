@@ -16,5 +16,7 @@ public class WebSecurityProperties {
     //默认值
     private String loginPage = "/default-security.html";
     private String loginUri = "/authentication/form";
+    //记住我的时间
+    private int rememberMeSeconds = 3600;
     private LoginHandleReturnType handleReturnType = LoginHandleReturnType.JSON;
 }
