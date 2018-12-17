@@ -1,4 +1,5 @@
-package com.liwh.validata.code;
+package com.liwh.validata.image;
+
 
 import javax.servlet.http.HttpServletRequest;
 

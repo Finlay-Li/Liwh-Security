@@ -1,7 +1,6 @@
 package com.liwh.config;
 
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validata.code.ImageCode;
 import com.liwh.validata.code.ValidataCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -88,7 +87,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/default-security.html").permitAll()
                 .antMatchers("/authentication/require"
                         , securityProperties.getWebSecurity().getLoginPage()
-                        , "/image/code").permitAll()
+                        , "/code/*").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

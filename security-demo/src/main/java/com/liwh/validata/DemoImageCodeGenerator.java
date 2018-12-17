@@ -1,8 +1,7 @@
 package com.liwh.validata;
 
-import com.liwh.validata.code.ImageCode;
-import com.liwh.validata.code.ImageCodeGenerator;
-import org.springframework.stereotype.Component;
+import com.liwh.validata.image.ImageCode;
+import com.liwh.validata.image.ImageCodeGenerator;
 
 import javax.servlet.http.HttpServletRequest;
 
