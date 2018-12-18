@@ -1,4 +1,4 @@
-package com.liwh.validata.sms;
+package com.liwh.validate.sms;
 
 /**
  * @author: Liwh

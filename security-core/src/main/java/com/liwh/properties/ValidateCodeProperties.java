@@ -11,7 +11,7 @@ import lombok.Data;
  * @date: 2018-12-14 2:50 PM
  */
 @Data
-public class ValidataCodeProperties {
+public class ValidateCodeProperties {
     //图片验证码
     private ImageCodeProperties imageCode = new ImageCodeProperties();
 

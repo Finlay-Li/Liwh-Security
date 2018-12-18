@@ -1,8 +1,10 @@
-package com.liwh.validata.image;
+package com.liwh.validate.image;
 
 import com.liwh.properties.SecurityProperties;
+import com.liwh.validate.code.ValidateCodeGenerator;
 import lombok.Data;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
@@ -17,16 +19,18 @@ import java.util.Random;
  * @date: 2018-12-16 10:42 AM
  */
 @Data
-public class DefultImageCodeGenerator implements ImageCodeGenerator {
+public class DefaultImageCodeGenerator implements ValidateCodeGenerator {
 
     private SecurityProperties securityProperties;
 
     @Override
-    public ImageCode generator(HttpServletRequest request) {
+    public ImageCode generate(ServletWebRequest servletWebRequest) {
+
+        HttpServletRequest request = servletWebRequest.getRequest();
         //图片宽高
         //请求级配置ServletRequestUtils
-        int width = ServletRequestUtils.getIntParameter(request, "width", securityProperties.getValidataCode().getImageCode().getWidth());
-        int height = ServletRequestUtils.getIntParameter(request, "height", securityProperties.getValidataCode().getImageCode().getHigh());
+        int width = ServletRequestUtils.getIntParameter(request, "width", securityProperties.getValidateCode().getImageCode().getWidth());
+        int height = ServletRequestUtils.getIntParameter(request, "height", securityProperties.getValidateCode().getImageCode().getHigh());
 
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
@@ -48,7 +52,7 @@ public class DefultImageCodeGenerator implements ImageCodeGenerator {
 
         String sRand = "";
         //4 位数
-        for (int i = 0; i < securityProperties.getValidataCode().getImageCode().getLength(); i++) {
+        for (int i = 0; i < securityProperties.getValidateCode().getImageCode().getLength(); i++) {
             String rand = String.valueOf(random.nextInt(10));
             sRand += rand;
             g.setColor(new Color(20 + random.nextInt(110), 20 + random.nextInt(110), 20 + random.nextInt(110)));
@@ -58,7 +62,8 @@ public class DefultImageCodeGenerator implements ImageCodeGenerator {
         g.dispose();
 
         //expireTime = 60
-        return new ImageCode(image, sRand, securityProperties.getValidataCode().getImageCode().getExpireTime());
+        ImageCode imageCode = new ImageCode(image, sRand, securityProperties.getValidateCode().getImageCode().getExpireTime());
+        return imageCode;
     }
 
     /**

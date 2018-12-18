@@ -15,5 +15,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class SecurityProperties {
 
     private WebSecurityProperties webSecurity = new WebSecurityProperties();
-    private ValidataCodeProperties validataCode = new ValidataCodeProperties();
+    private ValidateCodeProperties validateCode = new ValidateCodeProperties();
 }

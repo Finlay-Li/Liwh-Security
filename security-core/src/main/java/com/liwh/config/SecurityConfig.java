@@ -1,9 +1,8 @@
 package com.liwh.config;
 
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validata.code.ValidataCodeFilter;
+import com.liwh.validate.code.ValidateCodeFilter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -18,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
 public class SecurityConfig {
 
 //    @Bean
-    public ValidataCodeFilter validataCodeFilter(){
-        return new ValidataCodeFilter();
+    public ValidateCodeFilter validataCodeFilter(){
+        return new ValidateCodeFilter();
     }
 }

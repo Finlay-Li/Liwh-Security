@@ -1,8 +1,8 @@
-package com.liwh.validata.code;
+package com.liwh.validate.code;
 
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validata.exception.ValidataException;
-import com.liwh.validata.image.ImageCode;
+import com.liwh.validate.exception.ValidateException;
+import com.liwh.validate.image.ImageCode;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -32,7 +32,7 @@ import java.util.Set;
  * @date: 2018-12-12 10:52 AM
  */
 @Data
-public class ValidataCodeFilter extends OncePerRequestFilter implements InitializingBean {
+public class ValidateCodeFilter extends OncePerRequestFilter implements InitializingBean {
 
     //    @Autowired
     SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
@@ -47,7 +47,7 @@ public class ValidataCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        String var1 = securityProperties.getValidataCode().getImageCode().getUri();
+        String var1 = securityProperties.getValidateCode().getImageCode().getUri();
         String[] configUris = StringUtils.splitByWholeSeparatorPreserveAllTokens(var1, ",");
         for (String configUri:
                 configUris) {
@@ -73,7 +73,7 @@ public class ValidataCodeFilter extends OncePerRequestFilter implements Initiali
                     try {
                         //进行校验
                         validata(new ServletWebRequest(request));
-                    } catch (ValidataException e) {
+                    } catch (ValidateException e) {
                         //校验失败：validata（）我们抛出自定义异常
                         //访问失败处理器进行处理
                         defaultAuthenticationFailureHandle.onAuthenticationFailure(request, response, e);
@@ -99,19 +99,19 @@ public class ValidataCodeFilter extends OncePerRequestFilter implements Initiali
         String inputCode = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), "imageCode");
         //各种校验
         if (StringUtils.isEmpty(inputCode)) {
-            throw new ValidataException("验证码不能为空");
+            throw new ValidateException("验证码不能为空");
         }
 
         if (Objects.isNull(sessionImageCode)) {
-            throw new ValidataException("验证码不存在");
+            throw new ValidateException("验证码不存在");
         }
         if (sessionImageCode.isExpireTime(sessionImageCode.getExpireTime())) {
             sessionStrategy.removeAttribute(servletWebRequest, "SESSION_KEY_IMAGE_CODE");
-            throw new ValidataException("验证码已过期");
+            throw new ValidateException("验证码已过期");
         }
 
         if (!StringUtils.equalsIgnoreCase(sessionImageCode.getCode(), inputCode)) {
-            throw new ValidataException("验证码不匹配");
+            throw new ValidateException("验证码不匹配");
         }
 
         //通过则从session中移除给验证码

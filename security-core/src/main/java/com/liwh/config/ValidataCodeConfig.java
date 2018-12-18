@@ -1,10 +1,9 @@
 package com.liwh.config;
 
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validata.image.DefultImageCodeGenerator;
-import com.liwh.validata.image.ImageCodeGenerator;
-import com.liwh.validata.sms.DefaultSmsCodeGenerator;
-import com.liwh.validata.sms.SmsCodeGenerator;
+import com.liwh.validate.code.ValidateCodeGenerator;
+import com.liwh.validate.image.DefaultImageCodeGenerator;
+import com.liwh.validate.sms.DefaultSmsCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -23,18 +22,18 @@ public class ValidataCodeConfig {
     @Autowired
     private SecurityProperties securityProperties;
 
-    @Bean
-    @ConditionalOnMissingBean(name = {"imageCodeGenerator"})
-    public ImageCodeGenerator imageCodeGenerator() {
-        ImageCodeGenerator imageCodeGenerator = new DefultImageCodeGenerator();
-        ((DefultImageCodeGenerator) imageCodeGenerator).setSecurityProperties(securityProperties);
+    @Bean(name = "imageValidateCodeGenerator")
+    @ConditionalOnMissingBean(name = {"imageValidateCodeGenerator"})
+    public ValidateCodeGenerator imageCodeGenerator() {
+        DefaultImageCodeGenerator imageCodeGenerator = new DefaultImageCodeGenerator();
+        imageCodeGenerator.setSecurityProperties(securityProperties);
         return imageCodeGenerator;
     }
 
-    @Bean
-    @ConditionalOnMissingBean(SmsCodeGenerator.class)
-    public SmsCodeGenerator SmsCodeGenerator() {
-        SmsCodeGenerator smsCodeGenerator = new DefaultSmsCodeGenerator();
+    @Bean(name = "smsValidateCodeGenerator")
+    @ConditionalOnMissingBean(name = {"smsValidateCodeGenerator"})
+    public ValidateCodeGenerator SmsCodeGenerator() {
+        DefaultSmsCodeGenerator smsCodeGenerator = new DefaultSmsCodeGenerator();
         return smsCodeGenerator;
     }
 }

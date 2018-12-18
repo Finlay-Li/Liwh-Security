@@ -1,7 +1,7 @@
 package com.liwh.config;
 
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validata.code.ValidataCodeFilter;
+import com.liwh.validate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -58,7 +58,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        ValidataCodeFilter filter = new ValidataCodeFilter();
+        ValidateCodeFilter filter = new ValidateCodeFilter();
         filter.setDefaultAuthenticationFailureHandle(defaultAuthenticationFailureHandler);
         filter.setSecurityProperties(securityProperties);
         //afterPropertiesSet()

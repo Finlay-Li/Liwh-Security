@@ -1,9 +1,8 @@
 package com.liwh.validata;
 
-import com.liwh.validata.image.ImageCode;
-import com.liwh.validata.image.ImageCodeGenerator;
-
-import javax.servlet.http.HttpServletRequest;
+import com.liwh.validate.code.ValidateCodeGenerator;
+import com.liwh.validate.image.ImageCode;
+import org.springframework.web.context.request.ServletWebRequest;
 
 /**
  * @author: Liwh
@@ -13,11 +12,11 @@ import javax.servlet.http.HttpServletRequest;
  * @date: 2018-12-16 10:57 AM
  */
 //@Component("imageCodeGenerator")
-public class DemoImageCodeGenerator implements ImageCodeGenerator {
+public class DemoImageCodeGenerator implements ValidateCodeGenerator {
 
 
     @Override
-    public ImageCode generator(HttpServletRequest request) {
+    public ImageCode generate(ServletWebRequest servletWebRequest) {
         System.out.println("外部扩展的图片验证码生成逻辑");
         return null;
     }
