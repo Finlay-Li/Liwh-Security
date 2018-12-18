@@ -4,6 +4,8 @@ import com.liwh.properties.SecurityProperties;
 import com.liwh.validate.code.ValidateCodeGenerator;
 import com.liwh.validate.image.DefaultImageCodeGenerator;
 import com.liwh.validate.sms.DefaultSmsCodeGenerator;
+import com.liwh.validate.sms.DefaultSmsSender;
+import com.liwh.validate.sms.SmsSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +19,7 @@ import org.springframework.context.annotation.Configuration;
  * @date: 2018-12-16 10:46 AM
  */
 @Configuration
-public class ValidataCodeConfig {
+public class ValidateCodeConfig {
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -35,5 +37,12 @@ public class ValidataCodeConfig {
     public ValidateCodeGenerator SmsCodeGenerator() {
         DefaultSmsCodeGenerator smsCodeGenerator = new DefaultSmsCodeGenerator();
         return smsCodeGenerator;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(DefaultSmsSender.class)
+    public SmsSender smsSender(){
+        DefaultSmsSender smsSender = new DefaultSmsSender();
+        return smsSender;
     }
 }

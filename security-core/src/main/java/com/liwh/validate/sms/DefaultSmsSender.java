@@ -1,6 +1,5 @@
 package com.liwh.validate.sms;
 
-import org.springframework.stereotype.Component;
 
 /**
  * @author: Liwh
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
  * @version: 1.0.0
  * @date: 2018-12-17 5:22 PM
  */
-@Component
 public class DefaultSmsSender implements SmsSender {
     @Override
     public void send(String mobile, String code) {

@@ -1,6 +1,8 @@
 package com.liwh.config;
 
+import com.liwh.authentication.mobile.config.SmsAuthenticationSecurityConfig;
 import com.liwh.properties.SecurityProperties;
+import com.liwh.validate.code.SmsValidateCodeFilter;
 import com.liwh.validate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -38,6 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    SmsAuthenticationSecurityConfig smsAuthenticationSecurityConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -58,20 +62,27 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        ValidateCodeFilter filter = new ValidateCodeFilter();
-        filter.setDefaultAuthenticationFailureHandle(defaultAuthenticationFailureHandler);
-        filter.setSecurityProperties(securityProperties);
+        ValidateCodeFilter imageFilter = new ValidateCodeFilter();
+        imageFilter.setDefaultAuthenticationFailureHandle(defaultAuthenticationFailureHandler);
+        imageFilter.setSecurityProperties(securityProperties);
         //afterPropertiesSet()
-        filter.afterPropertiesSet();
+        imageFilter.afterPropertiesSet();
+
+        SmsValidateCodeFilter smsFilter = new SmsValidateCodeFilter();
+        smsFilter.setDefaultAuthenticationFailureHandle(defaultAuthenticationFailureHandler);
+        smsFilter.setSecurityProperties(securityProperties);
+        //afterPropertiesSet()
+        smsFilter.afterPropertiesSet();
 
         //加在前面
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(imageFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(smsFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 //访问自定义首页
                 .loginPage("/default-security.html")  /*html请求*/
 //                .loginPage("/authentication/require")  /*资源访问请求*/
-                //自定义表单的请求，使用UsernamePasswordFilter进行处理
-                .loginProcessingUrl(securityProperties.getWebSecurity().getLoginUri())
+                //自定义表单的请求，使用UsernamePasswordAuthenticationFilter进行处理
+                .loginProcessingUrl(securityProperties.getWebSecurity().getImageLoginUri())
                 //加入我们的成功处理器
                 .successHandler(defaultAuthenticationSuccessHandle)
                 .failureHandler(defaultAuthenticationFailureHandler)
@@ -85,13 +96,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //匹配器放过测试的controller请求 + 首页访问
 //                .antMatchers("/default-security.html").permitAll()
-                .antMatchers("/authentication/require"
+                .antMatchers("/authentication/require", "/authentication/mobile"
                         , securityProperties.getWebSecurity().getLoginPage()
                         , "/code/*").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 //关闭csrf跨站攻击保护
-                .csrf().disable();
+                .csrf().disable()
+                //追加短信验证的HTTP配置
+                .apply(smsAuthenticationSecurityConfig);
     }
 }
