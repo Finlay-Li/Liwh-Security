@@ -21,7 +21,7 @@ import java.util.Set;
 public class AbstractEnvironmentPostProcessor {
 
     protected final Logger log = LoggerFactory.getLogger(AbstractEnvironmentPostProcessor.class);
-    protected final String PROPERTY_SOURCES_NAME = "defultPropertySources";
+    protected final String PROPERTY_SOURCES_NAME = "defaultPropertySources";
 
     public void addEnvironmentProperties(MutablePropertySources propertySources, Map<String, Object> map) {
         MapPropertySource target = null;

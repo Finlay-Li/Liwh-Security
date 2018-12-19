@@ -2,8 +2,6 @@ package com.liwh.authentication.mobile.config;
 
 import com.liwh.authentication.mobile.SmsAuthenticationFilter;
 import com.liwh.authentication.mobile.SmsAuthenticationProvider;
-import com.liwh.validate.code.SmsValidateCodeFilter;
-import com.liwh.validate.code.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;

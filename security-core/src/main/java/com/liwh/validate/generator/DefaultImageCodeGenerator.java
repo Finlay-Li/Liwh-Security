@@ -1,7 +1,8 @@
-package com.liwh.validate.image;
+package com.liwh.validate.generator;
 
+import com.liwh.validate.model.ImageCode;
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validate.code.ValidateCodeGenerator;
+import com.liwh.validate.generator.ValidateCodeGenerator;
 import lombok.Data;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;

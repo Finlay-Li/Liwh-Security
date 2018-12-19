@@ -1,11 +1,11 @@
 package com.liwh.config;
 
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validate.code.ValidateCodeGenerator;
-import com.liwh.validate.image.DefaultImageCodeGenerator;
-import com.liwh.validate.sms.DefaultSmsCodeGenerator;
-import com.liwh.validate.sms.DefaultSmsSender;
-import com.liwh.validate.sms.SmsSender;
+import com.liwh.validate.generator.ValidateCodeGenerator;
+import com.liwh.validate.generator.DefaultImageCodeGenerator;
+import com.liwh.validate.generator.DefaultSmsCodeGenerator;
+import com.liwh.validate.sender.DefaultSmsSender;
+import com.liwh.validate.sender.SmsSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

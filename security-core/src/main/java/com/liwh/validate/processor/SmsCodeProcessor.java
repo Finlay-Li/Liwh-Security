@@ -1,10 +1,9 @@
 package com.liwh.validate.processor;
 
-import com.liwh.validate.sms.SmsCode;
-import com.liwh.validate.sms.SmsSender;
+import com.liwh.constants.SecurityConstants;
+import com.liwh.validate.model.SmsCode;
+import com.liwh.validate.sender.SmsSender;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -18,20 +17,18 @@ import org.springframework.web.context.request.ServletWebRequest;
  */
 @Component("smsValidateCodeProcessor")
 public class SmsCodeProcessor extends AbstractValidateCodeProcessor<SmsCode> {
-    private final String MOBILE_NAME = "mobile";
-    SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
     @Autowired
     private SmsSender smsSender;
 
     @Override
     void save(ServletWebRequest servletWebRequest, SmsCode validateCode) throws Exception {
-        sessionStrategy.setAttribute(servletWebRequest, SESSION_VALIDATA_PREFIX + "SMS", validateCode);
+        sessionStrategy.setAttribute(servletWebRequest, SESSION_VALIDATE_PREFIX + "SMS", validateCode);
     }
 
     @Override
     void send(ServletWebRequest servletWebRequest, SmsCode validateCode) throws Exception {
         //获取用户输入的手机号
-        String mobile = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), MOBILE_NAME);
+        String mobile = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE);
         //发送短信
         smsSender.send(mobile, validateCode.getCode());
     }

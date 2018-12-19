@@ -1,7 +1,7 @@
 package com.liwh.validata;
 
-import com.liwh.validate.code.ValidateCodeGenerator;
-import com.liwh.validate.image.ImageCode;
+import com.liwh.validate.generator.ValidateCodeGenerator;
+import com.liwh.validate.model.ImageCode;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**

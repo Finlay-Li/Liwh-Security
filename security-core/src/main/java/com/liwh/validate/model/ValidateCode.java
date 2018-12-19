@@ -1,4 +1,4 @@
-package com.liwh.validate.code;
+package com.liwh.validate.model;
 
 import lombok.Data;
 

@@ -14,7 +14,7 @@ import java.util.HashMap;
  * @version: 1.0.0
  * @date: 2018-12-03 12:15 PM
  */
-public class DefultMybatisEnvironmentPostProcessor extends AbstractEnvironmentPostProcessor implements EnvironmentPostProcessor {
+public class DefaultMybatisEnvironmentPostProcessor extends AbstractEnvironmentPostProcessor implements EnvironmentPostProcessor {
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment configurableEnvironment, SpringApplication springApplication) {
         MutablePropertySources propertySources = configurableEnvironment.getPropertySources();

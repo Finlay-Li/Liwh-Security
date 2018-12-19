@@ -1,5 +1,6 @@
-package com.liwh.validate.code;
+package com.liwh.validate.generator;
 
+import com.liwh.validate.model.ValidateCode;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**

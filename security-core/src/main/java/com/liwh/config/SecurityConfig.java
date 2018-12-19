@@ -1,7 +1,7 @@
 package com.liwh.config;
 
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validate.code.ValidateCodeFilter;
+import com.liwh.validate.filter.ValidateCodeFilter;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 

@@ -1,7 +1,8 @@
-package com.liwh.validate.sms;
+package com.liwh.validate.generator;
 
+import com.liwh.validate.model.SmsCode;
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validate.code.ValidateCodeGenerator;
+import com.liwh.validate.generator.ValidateCodeGenerator;
 import lombok.Data;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

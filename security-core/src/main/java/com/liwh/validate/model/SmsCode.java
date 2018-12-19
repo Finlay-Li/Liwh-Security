@@ -1,6 +1,5 @@
-package com.liwh.validate.sms;
+package com.liwh.validate.model;
 
-import com.liwh.validate.code.ValidateCode;
 import lombok.Data;
 
 import java.time.LocalDateTime;

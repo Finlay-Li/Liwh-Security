@@ -1,5 +1,6 @@
 package com.liwh.authentication.mobile;
 
+import com.liwh.constants.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -20,12 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 public class SmsAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
     //下面要取这个参数的值进行封装Token
-    private String usernameParameter = "mobile";
+    private String usernameParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
     private boolean postOnly = true;
 
     public SmsAuthenticationFilter() {
         super(new AntPathRequestMatcher("/login", "POST"));
-        this.setFilterProcessesUrl("/authentication/mobile");
+        this.setFilterProcessesUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE);
     }
 
     //封装登录信息，使用manager匹配可处理的provider
