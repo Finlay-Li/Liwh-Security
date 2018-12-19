@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper,Permission> implements PermissionService {
+public class PermissionServiceImpl extends BaseServiceImpl<PermissionMapper, Permission> implements PermissionService {
 
 
 }

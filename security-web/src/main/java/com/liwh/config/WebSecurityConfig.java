@@ -1,6 +1,8 @@
 package com.liwh.config;
 
+import com.liwh.authentication.mobile.config.AbstractChannelSecurityConfig;
 import com.liwh.authentication.mobile.config.SmsAuthenticationSecurityConfig;
+import com.liwh.authentication.mobile.config.ValidateCodeSecurityConfig;
 import com.liwh.constants.SecurityConstants;
 import com.liwh.properties.SecurityProperties;
 import com.liwh.validate.filter.ValidateCodeFilter;
@@ -28,14 +30,10 @@ import javax.sql.DataSource;
  * @date: 2018-12-07 11:15 AM
  */
 @Configuration
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends AbstractChannelSecurityConfig {
 
     @Autowired
     private SecurityProperties securityProperties;
-    @Autowired//用我们的实现类
-    private AuthenticationSuccessHandler defaultAuthenticationSuccessHandle;
-    @Autowired
-    private AuthenticationFailureHandler defaultAuthenticationFailureHandler;
     @Autowired
     private DataSource dataSource;
     @Autowired
@@ -43,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     SmsAuthenticationSecurityConfig smsAuthenticationSecurityConfig;
     @Autowired
-    private ValidateCodeFilter validateCodeFilter;
+    ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -63,22 +61,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //重写web http security 配置
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        applyPasswordAuthenticationConfig(http);
 
-        //afterPropertiesSet()
-        validateCodeFilter.afterPropertiesSet();
-
-
-        //加在前面
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-                .formLogin()
-                //访问自定义首页
-                .loginPage(SecurityConstants.DEFAULT_LOGIN_PAGE_URL)  /*html请求*/
-//                .loginPage("/authentication/require")  /*资源访问请求*/
-                //自定义表单的请求，使用UsernamePasswordAuthenticationFilter进行处理
-                .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)
-                //加入我们的成功处理器
-                .successHandler(defaultAuthenticationSuccessHandle)
-                .failureHandler(defaultAuthenticationFailureHandler)
+        http.apply(smsAuthenticationSecurityConfig)
+                .and()
+                .apply(validateCodeSecurityConfig)
                 .and()
                 .rememberMe()
                 .tokenRepository(persistentTokenRepository())
@@ -87,7 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService)
                 .and()
                 .authorizeRequests()
-                //匹配器放过测试的controller请求 + 首页访问
+                //匹配器放过测试的controller请求 + 首页访问 == 匿名访问
 //                .antMatchers("/default-security.html").permitAll()
                 .antMatchers(SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL, SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
                         , SecurityConstants.DEFAULT_LOGIN_PAGE_URL
@@ -96,8 +83,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 .and()
                 //关闭csrf跨站攻击保护
-                .csrf().disable()
-                //追加短信验证的HTTP配置
-                .apply(smsAuthenticationSecurityConfig);
+                .csrf().disable();
     }
 }

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
-public class AdminServiceImpl extends BaseServiceImpl<AdminMapper,Admin> implements AdminService {
+public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, Admin> implements AdminService {
 
     @Autowired
     private AdminMapper adminMapper;

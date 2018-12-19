@@ -18,7 +18,7 @@ import java.sql.Timestamp;
 @Data
 @TableName("sys_admin_role")
 public class AdminRole {
-    @TableId(value ="id",type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     @TableField("admin_id")
     private Long adminId;

@@ -15,7 +15,7 @@ import org.springframework.web.context.request.ServletWebRequest;
  * @version: 1.0.0
  * @date: 2018-12-17 8:23 PM
  */
-@Component("smsValidateCodeProcessor")
+@Component
 public class SmsCodeProcessor extends AbstractValidateCodeProcessor<SmsCode> {
     @Autowired
     private SmsSender smsSender;

@@ -14,6 +14,6 @@ import org.springframework.stereotype.Service;
  * @date: 2018-10-22 下午5:05
  */
 @Service
-public class RoleServiceImpl extends BaseServiceImpl<RoleMapper,Role> implements RoleService {
+public class RoleServiceImpl extends BaseServiceImpl<RoleMapper, Role> implements RoleService {
 
 }

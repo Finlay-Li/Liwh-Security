@@ -32,6 +32,6 @@ public class ValidateCodeController {
     @GetMapping("/code/{type}")
     public void imageCode(HttpServletRequest request, HttpServletResponse response, @PathVariable("type") String type) throws Exception {
         //调用处理器完成验证码的功能
-        codeProcessors.get(type+"ValidateCodeProcessor").create(new ServletWebRequest(request,response));
+        codeProcessors.get(type + "ValidateCodeProcessor").create(new ServletWebRequest(request, response));
     }
 }

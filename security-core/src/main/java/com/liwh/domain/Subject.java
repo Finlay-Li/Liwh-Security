@@ -42,7 +42,7 @@ public class Subject {
         } else if (!(o instanceof Subject)) {
             return false;
         } else {
-            Subject other = (Subject)o;
+            Subject other = (Subject) o;
             if (!other.canEqual(this)) {
                 return false;
             } else {

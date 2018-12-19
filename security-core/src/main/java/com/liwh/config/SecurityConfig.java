@@ -16,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfig {
 
-//    @Bean
-    public ValidateCodeFilter validataCodeFilter(){
+    //    @Bean
+    public ValidateCodeFilter validataCodeFilter() {
         return new ValidateCodeFilter();
     }
 }

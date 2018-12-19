@@ -31,7 +31,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         //模拟密码加密
         String password = passwordEncoder.encode("123456");
-        logger.info("加密后的数据库密码是："+password);
+        logger.info("加密后的数据库密码是：" + password);
         //通过传入的用户名进行数据库查询用户，然后把信息放入spring提供的User中
         User user = new User(username, password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
 

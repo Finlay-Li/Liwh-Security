@@ -27,7 +27,8 @@ public class ValidateCodeProcessorAdapter {
     //通过类型，自动提供支持的Processor
     public ValidateCodeProcessor support(ValidateCodeType type) {
         String var1 = type.toString().toLowerCase();
-        String var2 = var1 + StringUtils.substringBefore(ValidateCodeProcessor.class.getSimpleName(), "CodeProcessor");
+        String simpleName = ValidateCodeProcessor.class.getSimpleName();
+        String var2 = var1 + StringUtils.substringAfter(simpleName, "Validate");
         ValidateCodeProcessor processor = codeProcessorMap.get(var2);
         if (processor == null) {
             throw new ValidateCodeException("验证码处理器" + var2 + "不存在");

@@ -19,8 +19,8 @@ public class DefaultMybatisEnvironmentPostProcessor extends AbstractEnvironmentP
     public void postProcessEnvironment(ConfigurableEnvironment configurableEnvironment, SpringApplication springApplication) {
         MutablePropertySources propertySources = configurableEnvironment.getPropertySources();
         HashMap<String, Object> map = new HashMap<>();
-        map.put("mybatis-plus.mapperLocations","classpath:/mybatis/**/*Mapper.xml");
-        map.put("mybatis-plus.typeAliasesPackage","com.liwh.dao.model");
-        this.addEnvironmentProperties(propertySources,map);
+        map.put("mybatis-plus.mapperLocations", "classpath:/mybatis/**/*Mapper.xml");
+        map.put("mybatis-plus.typeAliasesPackage", "com.liwh.dao.model");
+        this.addEnvironmentProperties(propertySources, map);
     }
 }

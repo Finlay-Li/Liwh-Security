@@ -35,7 +35,7 @@ public class MybatisConfig {
     }
 
     @Bean
-    public PaginationInterceptor paginationInterceptor(){
+    public PaginationInterceptor paginationInterceptor() {
         PaginationInterceptor interceptor = new PaginationInterceptor();
         return interceptor;
     }

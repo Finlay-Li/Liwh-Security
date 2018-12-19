@@ -11,9 +11,10 @@ import lombok.Data;
  */
 @Data
 public class ImageCodeProperties extends SmsCodeProperties {
-    private int width = 67;
+    private int width = 62;
     private int high = 23;
 
+    //一定是4位
     public ImageCodeProperties() {
         setLength(4);
     }

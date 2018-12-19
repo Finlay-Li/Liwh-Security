@@ -16,11 +16,11 @@ public class SmsCode extends ValidateCode {
 
     //常规构造方法
     public SmsCode(String code, LocalDateTime expireTime) {
-        super(code,expireTime);
+        super(code, expireTime);
     }
 
     //设置过期时间的构造方法
     public SmsCode(String code, Integer expireTime) {
-        super(code,expireTime);
+        super(code, expireTime);
     }
 }

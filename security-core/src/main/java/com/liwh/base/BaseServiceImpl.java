@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
  * @version: 1.0.0
  * @date: 2018-11-25 1:46 PM
  */
-public class BaseServiceImpl<M extends SuperMapper<T>,T> extends ServiceImpl<M,T> implements BaseService<T> {
+public class BaseServiceImpl<M extends SuperMapper<T>, T> extends ServiceImpl<M, T> implements BaseService<T> {
 }

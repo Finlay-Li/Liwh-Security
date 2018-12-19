@@ -20,27 +20,27 @@ import java.util.List;
 @Data
 @TableName("sys_permission")
 public class Permission {
-    @TableId(value = "id",type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-    @TableField( "parent_id")
+    @TableField("parent_id")
     private Long parentId;
-    @TableField( "perm_name")
+    @TableField("perm_name")
     private String permName;
     //具体权限内容
-    @TableField( "perm_content")
+    @TableField("perm_content")
     private String permContent;
     //url,button,menus...
-    @TableField( "type")
+    @TableField("type")
     private String type;
     //用户权限状态normal-1，locked-2，useless-3
-    @TableField( "status")
+    @TableField("status")
     private Integer status;
     //http请求方式
-    @TableField( "http_method")
+    @TableField("http_method")
     private String httpMethod;
-    @TableField( "create_time")
+    @TableField("create_time")
     private Timestamp createTime;
-    @TableField( "update_time")
+    @TableField("update_time")
     private Timestamp updateTime;
     //存储子菜单；
 //    @Transient//不持久化的，表中不存在

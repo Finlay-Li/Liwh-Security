@@ -19,7 +19,7 @@ import java.sql.Timestamp;
 @Data
 @TableName("sys_admin")
 public class Admin /*implements Serializable*/ {
-//    private static final long serialVersionUID = 5336519849955555998L;
+    //    private static final long serialVersionUID = 5336519849955555998L;
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
     //账户名称
