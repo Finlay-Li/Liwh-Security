@@ -54,6 +54,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
 
         //转换为实体类
         QQUserInfo parse = (QQUserInfo) JSON.parse(result);
+        parse.setOpenId(openId);
 
         logger.info("获取用户信息成功：" + parse.toString());
         return parse;

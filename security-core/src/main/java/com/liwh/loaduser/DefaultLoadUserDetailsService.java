@@ -1,4 +1,4 @@
-package com.liwh.config;
+package com.liwh.loaduser;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,24 +18,16 @@ import org.springframework.stereotype.Component;
  * @version: 1.0.0
  * @date: 2018-12-07 11:27 AM
  */
-@Component
-public class MyUserDetailsService implements UserDetailsService {
+//@Component
+public class DefaultLoadUserDetailsService implements LoadUserDetailsService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     //验证数据库用户
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        //模拟密码加密
-        String password = passwordEncoder.encode("123456");
-        logger.info("加密后的数据库密码是：" + password);
-        //通过传入的用户名进行数据库查询用户，然后把信息放入spring提供的User中
-        User user = new User(username, password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        logger.warn("现在使用默认登录验证实现类:请实现LoadUserDetailsService接口完成自己的用户登录验证");
 
-        //返回User，spring会按HTTP得配置进行验证，授权
-        return user;
+        return null;
     }
 }

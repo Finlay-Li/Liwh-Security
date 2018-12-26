@@ -16,4 +16,5 @@ public class SecurityProperties {
 
     private WebSecurityProperties webSecurity = new WebSecurityProperties();
     private ValidateCodeProperties validateCode = new ValidateCodeProperties();
+    private SocialProperties social = new SocialProperties();
 }
