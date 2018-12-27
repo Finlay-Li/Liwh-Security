@@ -24,8 +24,9 @@ public class AbstractChannelSecurityConfig extends WebSecurityConfigurerAdapter 
     protected void applyPasswordAuthenticationConfig(HttpSecurity http) throws Exception {
         http.formLogin()
                 //访问自定义首页
-                .loginPage(SecurityConstants.DEFAULT_LOGIN_PAGE_URL)  /*html请求*/
-//              .loginPage("/authentication/require")  /*资源访问请求*/
+//                .loginPage(SecurityConstants.DEFAULT_LOGIN_PAGE_URL)  /*html请求*/
+                //把原本的单纯的“页面请求”改成我们的requireController由它去引导请求！只是换了个思路而已！
+                .loginPage(SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL)
                 //自定义表单的请求，使用UsernamePasswordAuthenticationFilter进行处理
                 .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)
                 .successHandler(defaultAuthenticationSuccessHandle)

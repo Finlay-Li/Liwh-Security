@@ -1,6 +1,5 @@
 package com.liwh.enums;
 
-import lombok.Data;
 
 /**
  * @author: Liwh
@@ -11,5 +10,5 @@ import lombok.Data;
  */
 public enum LoginHandleReturnType {
     JSON,
-    HTML
+    HTML;
 }

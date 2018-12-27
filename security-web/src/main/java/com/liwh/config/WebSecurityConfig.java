@@ -82,7 +82,7 @@ public class WebSecurityConfig extends AbstractChannelSecurityConfig {
                 //匹配器放过测试的controller请求 + 首页访问 == 匿名访问
 //                .antMatchers("/default-security.html").permitAll()
                 .antMatchers(SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL, SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-                        , SecurityConstants.DEFAULT_LOGIN_PAGE_URL
+                        , securityProperties.getWebSecurity().getLoginPage()
                         , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + SecurityConstants.DEFAULT_WILDCARD_URL).permitAll()
                 .anyRequest()
                 .authenticated()
