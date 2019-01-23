@@ -5,18 +5,13 @@ import com.liwh.authentication.mobile.config.SmsAuthenticationSecurityConfig;
 import com.liwh.authentication.mobile.config.ValidateCodeSecurityConfig;
 import com.liwh.constants.SecurityConstants;
 import com.liwh.properties.SecurityProperties;
-import com.liwh.validate.filter.ValidateCodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -78,12 +73,19 @@ public class WebSecurityConfig extends AbstractChannelSecurityConfig {
                 //回调userDetails，进行记住后操作
                 .userDetailsService(userDetailsService)
                 .and()
+                .sessionManagement()
+                .invalidSessionUrl(SecurityConstants.DEFAULT_SESSION_INVALID_URL)
+                .maximumSessions(1)
+//                .expiredSessionStrategy() 并发session时，我们的自定义策略
+                .and()
+                .and()
                 .authorizeRequests()
                 //匹配器放过测试的controller请求 + 首页访问 == 匿名访问
 //                .antMatchers("/default-security.html").permitAll()
                 .antMatchers(SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL, SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
                         , securityProperties.getWebSecurity().getLoginPage()
-                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + SecurityConstants.DEFAULT_WILDCARD_URL).permitAll()
+                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + SecurityConstants.DEFAULT_WILDCARD_URL
+                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

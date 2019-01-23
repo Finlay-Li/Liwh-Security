@@ -49,4 +49,11 @@ public class WebSecurityController {
         //3.若是其他请求，返回未认证的错误json数据
         return new SimpleRespone("访问的服务需要身份认证，请引导用户到登录页");
     }
+
+    @GetMapping("/session/invalid")
+    public SimpleRespone sessionInvalid() {
+        //其他业务逻辑
+        SimpleRespone result = new SimpleRespone("用户session超时，请重新登录");
+        return result;
+    }
 }

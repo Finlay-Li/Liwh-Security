@@ -45,7 +45,7 @@ public class SecurityConstants {
      */
     public static final String DEFAULT_PARAMETER_NAME_MOBILE = "mobile";
     /**
-     * session失效默认的跳转地址
+     * session失效默认处理的跳转地址
      */
     public static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
 
@@ -58,5 +58,4 @@ public class SecurityConstants {
      * 默认通配路径
      */
     public static final String DEFAULT_WILDCARD_URL = "/*";
-
 }

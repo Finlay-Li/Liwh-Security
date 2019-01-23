@@ -19,8 +19,7 @@
             <artifactId>security-core</artifactId>
             <version>${liwh.security.version}</version>
         </dependency>
-        <!--集群环境的session管理-->
-        <!--web的security管理就是管理session-->
+        <!--spring 提供的session管理-->
         <dependency>
             <groupId>org.springframework.session</groupId>
             <artifactId>spring-session</artifactId>

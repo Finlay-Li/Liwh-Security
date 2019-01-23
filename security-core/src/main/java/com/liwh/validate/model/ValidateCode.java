@@ -2,6 +2,7 @@ package com.liwh.validate.model;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
  * @date: 2018-12-17 7:23 PM
  */
 @Data
-public class ValidateCode {
+public class ValidateCode implements Serializable {
 
     //验证码
     private String code;
