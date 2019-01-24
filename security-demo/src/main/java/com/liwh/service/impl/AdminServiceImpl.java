@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
  * @date: 2018-09-28 20:37
  */
 @Service
-@Slf4j
 public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, Admin> implements AdminService {
 
     @Autowired

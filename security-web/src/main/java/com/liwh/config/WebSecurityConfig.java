@@ -4,14 +4,17 @@ import com.liwh.authentication.mobile.config.AbstractChannelSecurityConfig;
 import com.liwh.authentication.mobile.config.SmsAuthenticationSecurityConfig;
 import com.liwh.authentication.mobile.config.ValidateCodeSecurityConfig;
 import com.liwh.constants.SecurityConstants;
+import com.liwh.logout.DefaultLogoutHandler;
 import com.liwh.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -40,6 +43,8 @@ public class WebSecurityConfig extends AbstractChannelSecurityConfig {
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
     @Autowired
     private SpringSocialConfigurer springSocialConfigurer;
+    @Autowired
+    private LogoutSuccessHandler defaultLogoutHandler;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -54,6 +59,13 @@ public class WebSecurityConfig extends AbstractChannelSecurityConfig {
         //开启：启动服务时，spring创建表
 //        jdbcTokenRepository.setCreateTableOnStartup(true);
         return jdbcTokenRepository;
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(DefaultLogoutHandler.class)
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        DefaultLogoutHandler defaultLogoutHandler = new DefaultLogoutHandler();
+        return defaultLogoutHandler;
     }
 
     //重写web http security 配置
@@ -79,13 +91,20 @@ public class WebSecurityConfig extends AbstractChannelSecurityConfig {
 //                .expiredSessionStrategy() 并发session时，我们的自定义策略
                 .and()
                 .and()
+                .logout()
+                .logoutUrl(securityProperties.getWebSecurity().getSignOutUrl())
+                .logoutSuccessHandler(defaultLogoutHandler)
+                .deleteCookies("JSESSIONID")//清除session
+//                .clearAuthentication(true)//清除Authentication
+                .and()
                 .authorizeRequests()
                 //匹配器放过测试的controller请求 + 首页访问 == 匿名访问
 //                .antMatchers("/default-security.html").permitAll()
                 .antMatchers(SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL, SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
                         , securityProperties.getWebSecurity().getLoginPage()
                         , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + SecurityConstants.DEFAULT_WILDCARD_URL
-                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL).permitAll()
+                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL
+                        , securityProperties.getWebSecurity().getSignOutUrl()).permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
