@@ -47,7 +47,7 @@ public class LiwhLoadUserDetailsService implements LoadUserDetailsService, Socia
         logger.info("加密后的数据库密码是：" + password);
 
         //通过传入的用户名进行数据库查询用户，然后把信息放入spring提供的User中
-        SocialUser user = new SocialUser(s, password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
+        SocialUser user = new SocialUser(s, password, AuthorityUtils.commaSeparatedStringToAuthorityList("admin,ROLE_USER"));
 
         //返回User，spring会按HTTP得配置进行验证，授权
         return user;

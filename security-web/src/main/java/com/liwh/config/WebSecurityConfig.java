@@ -46,12 +46,6 @@ public class WebSecurityConfig extends AbstractChannelSecurityConfig {
     @Autowired
     private LogoutSuccessHandler defaultLogoutHandler;
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        return passwordEncoder;
-    }
-
     @Bean//持久化的TokenRepository
     public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl jdbcTokenRepository = new JdbcTokenRepositoryImpl();

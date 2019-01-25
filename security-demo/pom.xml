@@ -15,9 +15,16 @@
 
     <dependencies>
         <!--web服务-->
+        <!--<dependency>-->
+            <!--<groupId>com.liwh.security</groupId>-->
+            <!--<artifactId>security-web</artifactId>-->
+            <!--<version>${liwh.security.version}</version>-->
+        <!--</dependency>-->
+
+        <!--app服务-->
         <dependency>
             <groupId>com.liwh.security</groupId>
-            <artifactId>security-web</artifactId>
+            <artifactId>security-app</artifactId>
             <version>${liwh.security.version}</version>
         </dependency>
     </dependencies>
