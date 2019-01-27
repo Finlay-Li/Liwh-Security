@@ -50,8 +50,8 @@ public class DefaultResourceServerConfig extends ResourceServerConfigurerAdapter
                 .failureHandler(defaultAuthenticationFailureHandler);
         http.apply(smsAuthenticationSecurityConfig)
                 .and()
-//                .apply(validateCodeSecurityConfig)
-//                .and()
+                .apply(validateCodeSecurityConfig)
+                .and()
                 .apply(springSocialConfigurer)
                 .and()
                 .authorizeRequests()

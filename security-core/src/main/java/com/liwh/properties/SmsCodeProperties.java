@@ -14,6 +14,6 @@ public class SmsCodeProperties {
 
     private int length = 6;
     private int expireTime = 60;
-    //校验地址
+    //需要校验的地址
     private String uri = "/user/*";
 }

@@ -21,11 +21,6 @@ public class SmsCodeProcessor extends AbstractValidateCodeProcessor<SmsCode> {
     private SmsSender smsSender;
 
     @Override
-    void save(ServletWebRequest servletWebRequest, SmsCode validateCode) throws Exception {
-        sessionStrategy.setAttribute(servletWebRequest, SESSION_VALIDATE_PREFIX + "SMS", validateCode);
-    }
-
-    @Override
     void send(ServletWebRequest servletWebRequest, SmsCode validateCode) throws Exception {
         //获取用户输入的手机号
         String mobile = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE);

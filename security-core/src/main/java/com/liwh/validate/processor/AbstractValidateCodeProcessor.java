@@ -5,11 +5,9 @@ import com.liwh.validate.exception.ValidateCodeException;
 import com.liwh.validate.exception.ValidateException;
 import com.liwh.validate.model.ValidateCode;
 import com.liwh.validate.generator.ValidateCodeGenerator;
+import com.liwh.validate.repository.ValidateCodeRepository;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.social.connect.web.HttpSessionSessionStrategy;
-import org.springframework.social.connect.web.SessionStrategy;
 import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
@@ -28,11 +26,14 @@ import java.util.Objects;
  */
 public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> implements ValidateCodeProcessor {
 
-    protected SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
     protected final String THIS_SUFFIX = "CodeProcessor";
+
     //依赖搜索
     @Autowired
     Map<String, ValidateCodeGenerator> codeGenerators = new HashMap();
+
+    @Autowired
+    private ValidateCodeRepository validateCodeRepository;
 
     @Override
     public void create(ServletWebRequest servletWebRequest) throws Exception {
@@ -63,8 +64,11 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
         return validateCode;
     }
 
-    //由子类实现各自的逻辑
-    abstract void save(ServletWebRequest servletWebRequest, T validateCode) throws Exception;
+    //存储:1、不同类型不同的KEY,2、不同模块是不同的Repository实现
+    private void save(ServletWebRequest servletWebRequest, T validateCode) throws Exception {
+        ValidateCode code = new ValidateCode(validateCode.getCode(), validateCode.getExpireTime());
+        validateCodeRepository.save(servletWebRequest, code, getValidateCodeType());
+    }
 
     //由子类实现各自的逻辑
     abstract void send(ServletWebRequest servletWebRequest, T validateCode) throws Exception;
@@ -74,18 +78,21 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
     public void validate(ServletWebRequest servletWebRequest) throws ServletRequestBindingException {
 
         //获取操作类型
-        String type = getValidateCodeType();
+        ValidateCodeType validateCodeType = getValidateCodeType();
 
         //获取session_key
-        String sessionKey = getSessionKey(type);
+//        String sessionKey = getSessionKey(validateCodeType);
 
         //从session中取出存储的验证码
-        T sessionValidateCode = (T) sessionStrategy.getAttribute(servletWebRequest, sessionKey);
+//        T sessionValidateCode = (T) sessionStrategy.getAttribute(servletWebRequest, sessionKey);
+
+        //从Repository中取出存储的验证码
+        T code = (T) validateCodeRepository.get(servletWebRequest, validateCodeType);
 
         //从请求中拿出用户输入（input框）的code
         String inputCode;
         try {
-            inputCode = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), ValidateCodeType.valueOf(type).getParamNameOnValidate());
+            inputCode = ServletRequestUtils.getStringParameter(servletWebRequest.getRequest(), validateCodeType.getParamNameOnValidate());
 
         } catch (Exception e) {
             throw new ValidateCodeException("获取验证码的值失败");
@@ -95,29 +102,25 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
             throw new ValidateException("验证码不能为空");
         }
 
-        if (Objects.isNull(sessionValidateCode)) {
+        if (Objects.isNull(code)) {
             throw new ValidateException("验证码不存在");
         }
-        if (sessionValidateCode.isExpireTime(sessionValidateCode.getExpireTime())) {
-            sessionStrategy.removeAttribute(servletWebRequest, ValidateCodeProcessor.SESSION_VALIDATE_PREFIX + "IMAGE");
+        if (code.isExpireTime(code.getExpireTime())) {
+            validateCodeRepository.remove(servletWebRequest, validateCodeType);
             throw new ValidateException("验证码已过期");
         }
 
-        if (!StringUtils.equalsIgnoreCase(sessionValidateCode.getCode(), inputCode)) {
+        if (!StringUtils.equalsIgnoreCase(code.getCode(), inputCode)) {
             throw new ValidateException("验证码不匹配");
         }
 
-        //通过则从session中移除给验证码
-        sessionStrategy.removeAttribute(servletWebRequest, ValidateCodeProcessor.SESSION_VALIDATE_PREFIX + "IMAGE");
+        //通过则从Repository中移除给验证码
+        validateCodeRepository.remove(servletWebRequest, validateCodeType);
     }
 
-    private String getSessionKey(String type) {
-        return ValidateCodeProcessor.SESSION_VALIDATE_PREFIX + type;
-    }
-
-    private String getValidateCodeType() {
+    private ValidateCodeType getValidateCodeType() {
         String type = StringUtils.substringBefore(getClass().getSimpleName(), THIS_SUFFIX);
-        return type.toUpperCase();
+        return ValidateCodeType.valueOf(type.toUpperCase());
     }
 
 }

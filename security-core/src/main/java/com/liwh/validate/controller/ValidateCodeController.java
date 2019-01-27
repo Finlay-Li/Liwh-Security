@@ -1,4 +1,4 @@
-package com.liwh.validate.code;
+package com.liwh.validate.controller;
 
 import com.liwh.validate.processor.ValidateCodeProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
