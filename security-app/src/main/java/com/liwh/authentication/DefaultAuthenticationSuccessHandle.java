@@ -1,12 +1,19 @@
 package com.liwh.authentication;
 
 import com.alibaba.fastjson.JSON;
-import com.liwh.enums.LoginHandleReturnType;
 import com.liwh.properties.SecurityProperties;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.codec.Base64;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.exceptions.UnapprovedClientAuthenticationException;
+import org.springframework.security.oauth2.provider.*;
+import org.springframework.security.oauth2.provider.token.AuthorizationServerTokenServices;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -27,21 +34,62 @@ public class DefaultAuthenticationSuccessHandle extends SavedRequestAwareAuthent
     private final Logger logger = LoggerFactory.getLogger(getClass());
     @Autowired
     private SecurityProperties securityProperties;
+    @Autowired
+    private ClientDetailsService clientDetailsService;
+    @Autowired
+    private AuthorizationServerTokenServices defaultAuthorizationServerTokenServices;
 
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
-        logger.info("登录成功！");
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        String header = request.getHeader("Authorization");
+        if (header == null || !header.startsWith("Basic ")) {
+            throw new UnapprovedClientAuthenticationException("请求头中无Client信息!");
+        }
+        String[] tokens = this.extractAndDecodeHeader(header, request);
 
-        if (securityProperties.getWebSecurity().getHandleReturnType().equals(LoginHandleReturnType.JSON)) {
+        assert tokens.length == 2;
 
-            //发送积分
-            //然后是否能访问到资源呢？答案是不行.实际中是：返回成功的json，进入首页
-            httpServletResponse.setContentType("application/json;charset=utf-8");
-            httpServletResponse.getWriter().write(JSON.toJSONString(authentication));
-        } else {
-            //调父类的重定向
-            super.onAuthenticationSuccess(httpServletRequest, httpServletResponse, authentication);
+//        String username = tokens[0];
+        String clientId = tokens[0];
+        String clientSecret = tokens[1];
+
+        ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
+        if (clientDetails == null) {
+            throw new UnapprovedClientAuthenticationException("系统不存在该配置：" + clientId);
+        } else if (!StringUtils.equals(clientDetails.getClientSecret(), clientSecret)) {
+            throw new UnapprovedClientAuthenticationException("clientSecret不匹配：" + clientId);
+        }
+        //第一个Map在源码中，是用来构建authentication，然后帮我们验证的，但是这里我们不需要构建
+        //custom 自定义的
+        TokenRequest tokenRequest = new TokenRequest(MapUtils.EMPTY_MAP, clientId, clientDetails.getScope(), "custom");
+        OAuth2Request oAuth2Request = tokenRequest.createOAuth2Request(clientDetails);
+        OAuth2Authentication oAuth2Authentication = new OAuth2Authentication(oAuth2Request, authentication);
+        OAuth2AccessToken accessToken = defaultAuthorizationServerTokenServices.createAccessToken(oAuth2Authentication);
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(JSON.toJSONString(accessToken));
+    }
+
+    private String[] extractAndDecodeHeader(String header, HttpServletRequest request) throws IOException {
+        byte[] base64Token = header.substring(6).getBytes("UTF-8");
+
+        byte[] decoded;
+        try {
+            decoded = Base64.decode(base64Token);
+        } catch (IllegalArgumentException var7) {
+            throw new BadCredentialsException("Failed to decode basic authentication token");
         }
 
+        String token = new String(decoded, this.getCredentialsCharset());
+        int delim = token.indexOf(":");
+        if (delim == -1) {
+            throw new BadCredentialsException("Invalid basic authentication token");
+        } else {
+            return new String[]{token.substring(0, delim), token.substring(delim + 1)};
+        }
     }
+
+    protected String getCredentialsCharset() {
+        return "UTF-8";
+    }
+
 }

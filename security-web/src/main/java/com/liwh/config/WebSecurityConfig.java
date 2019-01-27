@@ -102,6 +102,9 @@ public class WebSecurityConfig extends AbstractChannelSecurityConfig {
                 .anyRequest()
                 .authenticated()
                 .and()
+                //开启跨域
+                .cors()
+                .and()
                 //关闭csrf跨站攻击保护
                 .csrf().disable();
     }
