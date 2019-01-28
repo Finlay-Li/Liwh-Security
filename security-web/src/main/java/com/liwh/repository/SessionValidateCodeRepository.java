@@ -17,7 +17,8 @@ import static com.liwh.validate.processor.ValidateCodeProcessor.SESSION_VALIDATE
  * @version: 1.0.0
  * @date: 2019-01-28 3:23 AM
  */
-@Component("sessionValidateCodeRepository")
+//@Component("sessionValidateCodeRepository")
+@Component
 public class SessionValidateCodeRepository implements ValidateCodeRepository {
 
     /**

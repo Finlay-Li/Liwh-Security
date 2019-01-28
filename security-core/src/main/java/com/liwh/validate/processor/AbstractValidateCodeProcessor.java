@@ -114,7 +114,7 @@ public abstract class AbstractValidateCodeProcessor<T extends ValidateCode> impl
             throw new ValidateException("验证码不匹配");
         }
 
-        //通过则从Repository中移除给验证码
+        //通过则从Repository中移除验证码
         validateCodeRepository.remove(servletWebRequest, validateCodeType);
     }
 

@@ -4,6 +4,7 @@ import com.liwh.validate.processor.ValidateCodeProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -29,7 +30,8 @@ public class ValidateCodeController {
     /**
      * 根据不同类型，调用{@link ValidateCodeProcessor}不同的实现
      */
-    @GetMapping("/code/{type}")
+    @PostMapping("/code/{type}")//当带上Header后一定要Post  this for app
+//    @GetMapping("/code/{type}")
     public void imageCode(HttpServletRequest request, HttpServletResponse response, @PathVariable("type") String type) throws Exception {
         //调用处理器完成验证码的功能
         codeProcessors.get(type + "CodeProcessor").create(new ServletWebRequest(request, response));

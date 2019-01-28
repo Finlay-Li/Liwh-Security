@@ -14,6 +14,8 @@ import java.time.LocalDateTime;
 @Data
 public class SmsCode extends ValidateCode {
 
+    private static final long serialVersionUID = -8104026037194401380L;
+
     //常规构造方法
     public SmsCode(String code, LocalDateTime expireTime) {
         super(code, expireTime);

@@ -32,7 +32,7 @@ public class DefaultAuthenticationFailureHandle extends SimpleUrlAuthenticationF
 
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
-        logger.info("登录失败！");
+        logger.info("登录失败:" + e.getMessage());
         if (securityProperties.getWebSecurity().getHandleReturnType().equals(LoginHandleReturnType.JSON)) {
 
             httpServletResponse.setContentType("application/json;charset=utf-8");

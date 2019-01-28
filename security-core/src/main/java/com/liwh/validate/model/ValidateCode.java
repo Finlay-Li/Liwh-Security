@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @Data
 public class ValidateCode implements Serializable {
 
+    private static final long serialVersionUID = 5525871613324490446L;
     //验证码
     private String code;
     //过期时间

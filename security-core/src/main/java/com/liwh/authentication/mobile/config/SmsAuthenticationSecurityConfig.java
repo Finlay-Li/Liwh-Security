@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
@@ -23,11 +25,17 @@ public class SmsAuthenticationSecurityConfig extends SecurityConfigurerAdapter<D
 
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    AuthenticationSuccessHandler defaultAuthenticationSuccessHandle;
+    @Autowired
+    AuthenticationFailureHandler defaultAuthenticationFailureHandler;
 
     public void configure(HttpSecurity builder) throws Exception {
         SmsAuthenticationFilter smsAuthenticationFilter = new SmsAuthenticationFilter();
         //设置AuthenticationManager
         smsAuthenticationFilter.setAuthenticationManager(builder.getSharedObject(AuthenticationManager.class));
+        smsAuthenticationFilter.setAuthenticationSuccessHandler(defaultAuthenticationSuccessHandle);
+        smsAuthenticationFilter.setAuthenticationFailureHandler(defaultAuthenticationFailureHandler);
 //        smsAuthenticationFilter.setFilterProcessesUrl("/authentication/mobile");
         SmsAuthenticationProvider smsAuthenticationProvider = new SmsAuthenticationProvider();
         smsAuthenticationProvider.setUserDetailsService(userDetailsService);

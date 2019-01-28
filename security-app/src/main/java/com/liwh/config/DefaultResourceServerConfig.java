@@ -61,7 +61,8 @@ public class DefaultResourceServerConfig extends ResourceServerConfigurerAdapter
                         , securityProperties.getWebSecurity().getLoginPage()
                         , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + SecurityConstants.DEFAULT_WILDCARD_URL
                         , SecurityConstants.DEFAULT_SESSION_INVALID_URL
-                        , securityProperties.getWebSecurity().getSignOutUrl()).permitAll()
+                        , securityProperties.getWebSecurity().getSignOutUrl())
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
