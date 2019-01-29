@@ -17,4 +17,5 @@ public class SecurityProperties {
     private WebSecurityProperties webSecurity = new WebSecurityProperties();
     private ValidateCodeProperties validateCode = new ValidateCodeProperties();
     private SocialProperties social = new SocialProperties();
+    private OAuth2Properties oauth2 = new OAuth2Properties();
 }
