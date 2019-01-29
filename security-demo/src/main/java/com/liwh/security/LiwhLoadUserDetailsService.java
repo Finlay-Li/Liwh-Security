@@ -33,7 +33,7 @@ public class LiwhLoadUserDetailsService implements LoadUserDetailsService, Socia
         return buildUserDetails(s);
     }
 
-    //此唯一标识：s == userId 。由social传入
+    //此时唯一标识：s == userId 。由social传入
     @Override
     public SocialUserDetails loadUserByUserId(String s) throws UsernameNotFoundException {
         logger.info("Social加载用户.唯一标识是：" + s);

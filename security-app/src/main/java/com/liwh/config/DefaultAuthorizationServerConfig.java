@@ -12,7 +12,12 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+
+import java.util.ArrayList;
 
 /**
  * @author: Liwh
@@ -32,15 +37,30 @@ public class DefaultAuthorizationServerConfig extends AuthorizationServerConfigu
     @Autowired
     private SecurityProperties securityProperties;
     @Autowired
-    private TokenStore redisTokenStore;
+    private TokenStore tokenStore;
+    @Autowired(required = false)
+    private JwtAccessTokenConverter jwtAccessTokenConverter;
+    @Autowired(required = false)
+    private TokenEnhancer jwtTokenEnhancer;
     private final String SCOPES = "all";
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints
-                .tokenStore(redisTokenStore)
+                .tokenStore(tokenStore)
                 .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService);
+        /*通过TokenEnhanceChain改变security default token的生成规则*/
+        if (jwtTokenEnhancer != null && jwtAccessTokenConverter != null) {
+            TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+            ArrayList<TokenEnhancer> enhancers = new ArrayList<>();
+            enhancers.add(jwtAccessTokenConverter);
+            enhancers.add(jwtTokenEnhancer);
+            tokenEnhancerChain.setTokenEnhancers(enhancers);
+            endpoints.tokenEnhancer(tokenEnhancerChain)
+                    .accessTokenConverter(jwtAccessTokenConverter);
+        }
+
     }
 
     @Override
@@ -53,6 +73,7 @@ public class DefaultAuthorizationServerConfig extends AuthorizationServerConfigu
                 builder.withClient(client.getClientId())
                         .secret(client.getSecret())
                         .accessTokenValiditySeconds(client.getAccessTokenValiditySeconds())
+                        .refreshTokenValiditySeconds(2592000)
                         .authorizedGrantTypes("refresh_token", "password", "authorization_code")
                         .scopes(SCOPES);
             }

@@ -11,5 +11,6 @@ import lombok.Data;
  */
 @Data
 public class OAuth2Properties {
+    private String jwtSigningKey = "dodou-jwt-signing";
     private OAuth2ClientProperties[] clients = {};
 }

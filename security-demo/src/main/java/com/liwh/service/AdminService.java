@@ -15,4 +15,6 @@ public interface AdminService extends BaseService<Admin> {
 
 
     Admin queryById(Long id);
+
+    Admin queryByPhone(String phone);
 }

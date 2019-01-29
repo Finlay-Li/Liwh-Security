@@ -22,6 +22,9 @@
 SELECT * FROM sys_admin WHERE id = #{id};
     </select>
 
+    <select id="queryByPhone" resultType="com.liwh.dao.model.Admin">
+SELECT * FROM sys_admin WHERE phone = #{phone};
+    </select>
     <sql id="selectWheres">
         <where>
             <if test="adminName != null">

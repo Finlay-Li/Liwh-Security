@@ -26,4 +26,9 @@ public class AdminServiceImpl extends BaseServiceImpl<AdminMapper, Admin> implem
     public Admin queryById(Long id) {
         return adminMapper.queryById(id);
     }
+
+    @Override
+    public Admin queryByPhone(String phone) {
+        return adminMapper.queryByPhone(phone);
+    }
 }

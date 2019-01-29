@@ -15,4 +15,6 @@ import org.apache.ibatis.annotations.Param;
 public interface AdminMapper extends SuperMapper<Admin> {
 
     Admin queryById(@Param("id") Long id);
+
+    Admin queryByPhone(@Param("phone") String phone);
 }

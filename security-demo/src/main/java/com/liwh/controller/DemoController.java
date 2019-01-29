@@ -2,6 +2,7 @@ package com.liwh.controller;
 
 import com.liwh.dao.model.Admin;
 import com.liwh.service.AdminService;
+import com.liwh.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,8 @@ public class DemoController {
     private RedisTemplate redisTemplate;
     @Autowired
     private AdminService adminService;
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @GetMapping("/hello")
     @ApiOperation(value = "第一个测试")
@@ -68,6 +72,14 @@ public class DemoController {
     @ApiImplicitParam(name = "id", value = "用户id", required = true, dataType = "Integer")
     public Admin rememberMe(@PathVariable("id") Long id) {
         return adminService.queryById(id);
+    }
+
+    @GetMapping("/user")
+    @ApiOperation(value = "jwtUtils测试")
+    @ApiImplicitParam()
+    public Admin rememberMe(HttpServletRequest request) {
+        Admin admin = jwtUtils.getUser(request);
+        return admin;
     }
 
 }
