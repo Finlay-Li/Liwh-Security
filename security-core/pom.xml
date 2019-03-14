@@ -14,8 +14,7 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!--app 安全的核心框架-->
-        <!--包含boot web 项目的所有依赖-->
+        <!--包含boot项目的所有依赖:安全框架,Web框架,oauth2,Cloud-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-oauth2</artifactId>

@@ -2,10 +2,12 @@ package com.liwh.config;
 
 import com.liwh.authentication.mobile.config.SmsAuthenticationSecurityConfig;
 import com.liwh.authentication.mobile.config.ValidateCodeSecurityConfig;
+import com.liwh.authorize.AuthorizeConfigManager;
 import com.liwh.constants.SecurityConstants;
 import com.liwh.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
@@ -36,6 +38,8 @@ public class DefaultResourceServerConfig extends ResourceServerConfigurerAdapter
     private ValidateCodeSecurityConfig validateCodeSecurityConfig;
     @Autowired
     private SpringSocialConfigurer springSocialConfigurer;
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -54,22 +58,11 @@ public class DefaultResourceServerConfig extends ResourceServerConfigurerAdapter
                 .and()
                 .apply(springSocialConfigurer)
                 .and()
-                .authorizeRequests()
-                //匹配器放过测试的controller请求 + 首页访问 == 匿名访问
-//                .antMatchers("/default-security.html").permitAll()
-                .antMatchers(SecurityConstants.DEFAULT_UN_AUTHENTICATION_URL, SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE
-                        , securityProperties.getWebSecurity().getLoginPage()
-                        , SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX + SecurityConstants.DEFAULT_WILDCARD_URL
-                        , SecurityConstants.DEFAULT_SESSION_INVALID_URL
-                        , securityProperties.getWebSecurity().getSignOutUrl())
-                .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
                 //开启跨域
                 .cors()
                 .and()
                 //关闭csrf跨站攻击保护
                 .csrf().disable();
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 }

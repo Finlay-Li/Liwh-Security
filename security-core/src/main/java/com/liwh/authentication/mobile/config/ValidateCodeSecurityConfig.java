@@ -23,7 +23,7 @@ public class ValidateCodeSecurityConfig extends SecurityConfigurerAdapter<Defaul
 
     @Override
     public void configure(HttpSecurity builder) throws Exception {
-        validateCodeFilter.afterPropertiesSet();
+//        validateCodeFilter.afterPropertiesSet();
         builder.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

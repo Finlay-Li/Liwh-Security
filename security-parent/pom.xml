@@ -22,9 +22,9 @@
         <spring.version>5.0.10.RELEASE</spring.version>
     </properties>
 
-    <!--Spring GA版本提供的：依赖的版本管理器-->
     <dependencyManagement>
         <dependencies>
+            <!--Spring GA版本提供的：版本依赖管理器-->
             <dependency>
                 <groupId>io.spring.platform</groupId>
                 <artifactId>platform-bom</artifactId>

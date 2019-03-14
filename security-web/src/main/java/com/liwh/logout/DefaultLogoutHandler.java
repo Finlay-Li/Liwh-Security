@@ -14,7 +14,7 @@ import java.io.IOException;
 
 /**
  * @author: Liwh
- * @ClassName: DefultLogoutHandler
+ * @ClassName: DefaultLogoutHandler
  * @Description:
  * @version: 1.0.0
  * @date: 2019-01-23 10:26 PM
