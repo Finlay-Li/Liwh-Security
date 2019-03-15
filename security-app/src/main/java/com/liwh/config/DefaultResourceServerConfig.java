@@ -11,6 +11,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.expression.OAuth2WebSecurityExpressionHandler;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.social.security.SpringSocialConfigurer;
@@ -40,6 +43,17 @@ public class DefaultResourceServerConfig extends ResourceServerConfigurerAdapter
     private SpringSocialConfigurer springSocialConfigurer;
     @Autowired
     private AuthorizeConfigManager authorizeConfigManager;
+    @Autowired
+    private OAuth2WebSecurityExpressionHandler oAuth2WebSecurityExpressionHandler;
+    @Autowired
+    private AccessDeniedHandler accessDeniedHandler;
+
+    @Override
+    public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
+        super.configure(resources);
+        resources.expressionHandler(oAuth2WebSecurityExpressionHandler)
+                .accessDeniedHandler(accessDeniedHandler);
+    }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
